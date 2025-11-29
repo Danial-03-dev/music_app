@@ -1,0 +1,50 @@
+# ======================
+# Global OS & Editor ignores
+# ======================
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.iml
+
+# Env / Secrets
+.env
+.env.*
+*.secret.json
+*.key
+
+# ======================
+# Node / Express / TypeScript (server)
+# ======================
+
+# Dependencies
+server/node_modules/
+
+# Build outputs
+server/dist/
+server/build/
+
+# Logs
+server/npm-debug.log*
+server/yarn-debug.log*
+server/yarn-error.log*
+server/pnpm-debug.log*
+server/logs/
+server/*.log
+server/logs/*.log
+
+# TypeScript
+server/**/*.tsbuildinfo
+
+# PM2 Or Similar
+server/pids/
+server/*.pid
+server/*.seed
+server/*.pid.lock
+
+
+# ====================

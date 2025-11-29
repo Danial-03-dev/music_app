@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    /* ---- Output ---- */
+    "outDir": "./dist",
+    "rootDir": "./src",
+    /* ---- Module System ---- */
+    "target": "ES2020",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    /* ---- Node Support ---- */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "types": [
+      "node"
+    ],
+    /* ---- Strict Type Safety ---- */
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    /* ---- Source Maps ---- */
+    "sourceMap": true,
+    /* ---- Clean Imports ---- */
+    "resolveJsonModule": true,
+    /* ---- Better Express Type Support ---- */
+    "strictNullChecks": true,
+    "noImplicitAny": true
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
