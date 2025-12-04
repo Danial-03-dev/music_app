@@ -6,4 +6,10 @@ export const UserCreateSchema = z.object({
     password: z.string().min(6),
 });
 
+export const UserLoginSchema = z.object({
+    email: z.email(),
+    password: z.string().min(6),
+});
+
 export type UserCreateSchemaType = z.infer<typeof UserCreateSchema>;
+export type UserLoginSchemaType = z.infer<typeof UserLoginSchema>
