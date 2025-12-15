@@ -2,6 +2,9 @@ import 'package:client/features/auth/view/widgets/forms/login_form.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
+  static MaterialPageRoute<LoginPage> route() =>
+      MaterialPageRoute(builder: (context) => const LoginPage());
+
   const LoginPage({super.key});
 
   @override

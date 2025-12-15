@@ -1,11 +1,18 @@
 import 'package:client/core/theme/app_pallete.dart';
+import 'package:client/core/widgets/loader.dart';
 import 'package:flutter/material.dart';
 
 class GradientButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
+  final bool loading;
 
-  const GradientButton({super.key, required this.text, this.onPressed});
+  const GradientButton({
+    super.key,
+    required this.text,
+    this.onPressed,
+    this.loading = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +34,17 @@ class GradientButton extends StatelessWidget {
           shadowColor: Pallete.transparentColor,
           shape: RoundedRectangleBorder(borderRadius: borderRadius),
         ),
-        onPressed: onPressed,
-        child: Text(
-          text,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Pallete.whiteColor,
-          ),
-        ),
+        onPressed: loading ? null : onPressed,
+        child: loading
+            ? Loader()
+            : Text(
+                text,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Pallete.whiteColor,
+                ),
+              ),
       ),
     );
   }

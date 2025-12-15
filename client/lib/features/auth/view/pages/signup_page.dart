@@ -2,6 +2,9 @@ import 'package:client/features/auth/view/widgets/forms/signup_form.dart';
 import 'package:flutter/material.dart';
 
 class SignupPage extends StatelessWidget {
+  static MaterialPageRoute<SignupPage> route() =>
+      MaterialPageRoute(builder: (context) => const SignupPage());
+
   const SignupPage({super.key});
 
   @override

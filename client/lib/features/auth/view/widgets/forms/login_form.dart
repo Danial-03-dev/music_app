@@ -1,16 +1,20 @@
+import 'package:client/core/utils/utils.dart';
+import 'package:client/features/auth/view/pages/signup_page.dart';
 import 'package:client/features/auth/view/widgets/buttons/custom_text_button.dart';
 import 'package:client/features/auth/view/widgets/buttons/gradient_button.dart';
 import 'package:client/features/auth/view/widgets/inputs/custom_field.dart';
+import 'package:client/features/auth/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginForm extends StatefulWidget {
+class LoginForm extends ConsumerStatefulWidget {
   const LoginForm({super.key});
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  ConsumerState<LoginForm> createState() => _LoginFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _LoginFormState extends ConsumerState<LoginForm> {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -23,8 +27,39 @@ class _LoginFormState extends State<LoginForm> {
     super.dispose();
   }
 
+  void handleLogin() async {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+
+    await ref
+        .read(authViewModelProvider.notifier)
+        .loginUser(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
+        );
+  }
+
+  void handleSignup() {
+    Navigator.push(context, SignupPage.route());
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isLoading = ref.watch(authViewModelProvider)?.isLoading == true;
+
+    ref.listen(authViewModelProvider, (_, next) {
+      next?.when(
+        data: (data) {
+          // TODO: Navigate to homepage
+        },
+        error: (error, st) {
+          showSnackBar(context, error.toString());
+        },
+        loading: () {},
+      );
+    });
+
     return Form(
       key: formKey,
       child: Column(
@@ -49,7 +84,11 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                 ],
               ),
-              const GradientButton(text: 'Login'),
+              GradientButton(
+                text: 'Login',
+                onPressed: handleLogin,
+                loading: isLoading,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -57,7 +96,7 @@ class _LoginFormState extends State<LoginForm> {
                     'Don\'t have an account? ',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  const CustomTextButton(text: 'Sign up'),
+                  CustomTextButton(text: 'Sign up', onPressed: handleSignup),
                 ],
               ),
             ],
