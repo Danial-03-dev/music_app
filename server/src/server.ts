@@ -4,12 +4,13 @@ import { connectDB } from './database';
 
 dotenv.config();
 
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
 async function startServer() {
     await connectDB();
 
-    app.listen(PORT, () => {
+    
+    app.listen(PORT, '0.0.0.0', () => {
         console.log(`Server running at http://localhost:${PORT}`);
     });
 }
