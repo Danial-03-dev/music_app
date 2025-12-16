@@ -14,16 +14,20 @@ class AuthViewModel extends _$AuthViewModel {
   late CurrentUserNotifier _currentUserNotifier;
 
   @override
-  AsyncValue<UserModel>? build() {
+  AsyncValue<UserModel?> build() {
     _authRemoteRepository = ref.watch(authRemoteRepositoryProvider);
     _authLocalRepository = ref.watch(authLocalRepositoryProvider);
     _currentUserNotifier = ref.watch(currentUserProvider.notifier);
 
-    return null;
+    _init();
+
+    return const AsyncValue.loading();
   }
 
-  Future<void> initSharedPrefrences() async {
+  Future<void> _init() async {
     await _authLocalRepository.init();
+
+    getUserData();
   }
 
   Future<void> signUpUser({
@@ -38,6 +42,8 @@ class AuthViewModel extends _$AuthViewModel {
       email: email,
       password: password,
     );
+
+    if (!ref.mounted) return;
 
     state = switch (response) {
       fpdart.Left(value: final l) => AsyncValue.error(
@@ -58,6 +64,8 @@ class AuthViewModel extends _$AuthViewModel {
       email: email,
       password: password,
     );
+
+    if (!ref.mounted) return;
 
     state = switch (response) {
       fpdart.Left(value: final l) => AsyncValue.error(
@@ -80,12 +88,15 @@ class AuthViewModel extends _$AuthViewModel {
     final token = _authLocalRepository.getToken();
 
     if (token == null) {
+      state = const AsyncValue.data(null);
       return null;
     }
 
     final response = await _authRemoteRepository.getCurrentUserData(
       token: token,
     );
+
+    if (!ref.mounted) return null;
 
     state = switch (response) {
       fpdart.Left(value: final l) => AsyncValue.error(
@@ -95,7 +106,7 @@ class AuthViewModel extends _$AuthViewModel {
       fpdart.Right(value: final r) => _getUserDataSuccess(r),
     };
 
-    return state?.value;
+    return state.value;
   }
 
   AsyncValue<UserModel> _getUserDataSuccess(UserModel user) {

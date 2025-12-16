@@ -49,11 +49,11 @@ class _SignupFormState extends ConsumerState<SignupForm> {
   @override
   Widget build(BuildContext context) {
     final isLoading = ref.watch(
-      authViewModelProvider.select((val) => val?.isLoading == true),
+      authViewModelProvider.select((val) => val.isLoading == true),
     );
 
     ref.listen(authViewModelProvider, (_, next) {
-      next?.when(
+      next.when(
         data: (data) {
           showSnackBar(context, 'Account created successfully! Plese Login');
 

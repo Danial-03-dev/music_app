@@ -21,10 +21,10 @@ class AuthLocalRepository {
       return;
     }
 
-    _sharedPreferences!.setString(key, token);
+    _sharedPreferences?.setString(key, token);
   }
 
   String? getToken() {
-    return _sharedPreferences!.getString(key);
+    return _sharedPreferences?.getString(key);
   }
 }

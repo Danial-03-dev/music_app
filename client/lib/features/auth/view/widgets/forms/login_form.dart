@@ -47,11 +47,11 @@ class _LoginFormState extends ConsumerState<LoginForm> {
   @override
   Widget build(BuildContext context) {
     final isLoading = ref.watch(
-      authViewModelProvider.select((val) => val?.isLoading == true),
+      authViewModelProvider.select((val) => val.isLoading == true),
     );
 
     ref.listen(authViewModelProvider, (_, next) {
-      next?.when(
+      next.when(
         data: (_) {},
         error: (error, st) {
           showSnackBar(context, error.toString());
