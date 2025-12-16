@@ -63,4 +63,30 @@ class AuthRemoteRepository {
       return fpdart.Left(Failure(message: e.toString()));
     }
   }
+
+  Future<fpdart.Either<Failure, UserModel>> getCurrentUserData({
+    required String token,
+  }) async {
+    try {
+      final response = await http.get(
+        Uri.parse('$_authURI/'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      final responseBodyMap = jsonDecode(response.body) as Map<String, dynamic>;
+
+      if (response.statusCode != 200) {
+        return fpdart.Left(Failure(message: responseBodyMap['message']));
+      }
+
+      return fpdart.Right(
+        UserModel.fromMap(responseBodyMap).copywith(token: token),
+      );
+    } catch (e) {
+      return fpdart.Left(Failure(message: e.toString()));
+    }
+  }
 }
