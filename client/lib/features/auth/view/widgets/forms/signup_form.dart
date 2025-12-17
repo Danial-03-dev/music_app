@@ -1,7 +1,7 @@
 import 'package:client/core/utils/utils.dart';
 import 'package:client/features/auth/view/widgets/buttons/custom_text_button.dart';
 import 'package:client/features/auth/view/widgets/buttons/gradient_button.dart';
-import 'package:client/features/auth/view/widgets/inputs/custom_field.dart';
+import 'package:client/core/widgets/inputs/custom_field.dart';
 import 'package:client/features/auth/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

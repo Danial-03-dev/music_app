@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 
 class Customfield extends StatelessWidget {
   final String hintText;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final bool obscureText;
+  final bool readOnly;
+  final VoidCallback? onTap;
 
   const Customfield({
     super.key,
     required this.hintText,
-    required this.controller,
+    this.controller,
     this.obscureText = false,
+    this.readOnly = false,
+    this.onTap,
   });
 
   @override
@@ -18,6 +22,8 @@ class Customfield extends StatelessWidget {
       controller: controller,
       decoration: InputDecoration(hintText: hintText),
       obscureText: obscureText,
+      readOnly: readOnly,
+      onTap: onTap,
       validator: (value) {
         if (value!.trim().isEmpty) {
           return '$hintText is missing!';
