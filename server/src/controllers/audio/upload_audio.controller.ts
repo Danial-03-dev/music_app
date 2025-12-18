@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import mongoose, { Types } from "mongoose";
+import mongoose from "mongoose";
 import { treeifyError } from "zod";
 import { AUDIO_BUCKET_NAME, IMAGE_BUCKET_NAME } from "../../constants/constants";
 import { AudioModel } from "../../models/audio.model";
