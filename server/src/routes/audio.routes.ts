@@ -11,6 +11,6 @@ export const audioRouter = Router();
 
 audioRouter.get('/image/:id', authMiddleware, getMediaController(IMAGE_BUCKET_NAME));
 audioRouter.get('/signed-url/:id', authMiddleware, getAudioSignedUrlController);
-audioRouter.get('/stream/:id', getMediaController(AUDIO_BUCKET_NAME));
+audioRouter.get('/stream/:id', getMediaController(AUDIO_BUCKET_NAME, true));
 audioRouter.get('/list', authMiddleware, getAudioListController);
 audioRouter.post('/upload', authMiddleware, uploadAudioAndImageMiddleware, uploadAudioController);
