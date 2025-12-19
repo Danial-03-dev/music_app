@@ -24,12 +24,14 @@ class Customfield extends StatelessWidget {
       obscureText: obscureText,
       readOnly: readOnly,
       onTap: onTap,
-      validator: (value) {
-        if (value!.trim().isEmpty) {
-          return '$hintText is missing!';
-        }
-        return null;
-      },
+      validator: readOnly
+          ? null
+          : (value) {
+              if (value!.trim().isEmpty) {
+                return '$hintText is missing!';
+              }
+              return null;
+            },
     );
   }
 }

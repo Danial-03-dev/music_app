@@ -42,8 +42,9 @@ Future<PickedMedia?> pickAudio() async {
 class PickedImage {
   final File? file;
   final Uint8List? bytes;
+  final String? name;
 
-  const PickedImage({this.file, this.bytes});
+  const PickedImage({this.file, this.bytes, this.name});
 }
 
 Future<PickedImage?> pickImage() async {
@@ -57,8 +58,43 @@ Future<PickedImage?> pickImage() async {
 
     final file = filePickerResult.files.first;
 
-    return PickedImage(file: File(file.xFile.path), bytes: file.bytes);
+    return PickedImage(
+      file: File(file.xFile.path),
+      bytes: file.bytes,
+      name: file.name,
+    );
   } catch (e) {
     return null;
   }
+}
+
+String colorToHex(Color color) {
+  final hexRadix = 16;
+  final totalCharacters = 2;
+  final spacing = '0';
+
+  final r = color.r
+      .round()
+      .toRadixString(hexRadix)
+      .padLeft(totalCharacters, spacing);
+  final g = color.g
+      .round()
+      .toRadixString(hexRadix)
+      .padLeft(totalCharacters, spacing);
+  final b = color.b
+      .round()
+      .toRadixString(hexRadix)
+      .padLeft(totalCharacters, spacing);
+
+  return '#$r$g$b'.toUpperCase();
+}
+
+Color hexToColor(String hex) {
+  hex = hex.replaceFirst('#', '');
+
+  if (hex.length == 6) {
+    hex = 'FF$hex'; // add full opacity
+  }
+
+  return Color(int.parse(hex, radix: 16));
 }
