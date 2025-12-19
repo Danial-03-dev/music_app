@@ -5,10 +5,12 @@ import { uploadAudioController } from "../controllers/audio/upload_audio.control
 import { uploadAudioAndImageMiddleware } from "../middleware/audio.middleware";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { AUDIO_BUCKET_NAME, IMAGE_BUCKET_NAME } from "../constants/constants";
+import { getAudioSignedUrlController } from "../controllers/audio/get_audio_signed_url.controller";
 
 export const audioRouter = Router();
 
 audioRouter.get('/image/:id', authMiddleware, getMediaController(IMAGE_BUCKET_NAME));
-audioRouter.get('/audio/:id', authMiddleware, getMediaController(AUDIO_BUCKET_NAME));
+audioRouter.get('/signed-url/:id', authMiddleware, getAudioSignedUrlController);
+audioRouter.get('/stream/:id', getMediaController(AUDIO_BUCKET_NAME));
 audioRouter.get('/list', authMiddleware, getAudioListController);
 audioRouter.post('/upload', authMiddleware, uploadAudioAndImageMiddleware, uploadAudioController);
