@@ -4,8 +4,13 @@ import 'package:client/features/auth/view/pages/login_page.dart';
 import 'package:client/features/home/view/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Hive.initFlutter();
+
   runApp(ProviderScope(child: const MyApp()));
 }
 
@@ -17,7 +22,7 @@ class MyApp extends ConsumerWidget {
     final currentUser = ref.watch(currentUserProvider);
 
     return MaterialApp(
-      title: 'Music App',
+      title: 'Audio App',
       theme: AppTheme.darkThemeMode,
       debugShowCheckedModeBanner: false,
       home: currentUser == null ? const LoginPage() : const HomePage(),

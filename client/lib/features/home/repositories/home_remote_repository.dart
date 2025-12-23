@@ -10,7 +10,7 @@ import 'package:http_parser/http_parser.dart';
 import 'package:mime/mime.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'home_repository.g.dart';
+part 'home_remote_repository.g.dart';
 
 @riverpod
 HomeRepository homeRepository(Ref ref) {

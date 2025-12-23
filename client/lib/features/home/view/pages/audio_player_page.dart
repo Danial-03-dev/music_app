@@ -1,4 +1,5 @@
 import 'package:client/core/providers/current_audio/current_audio_notifier.dart';
+import 'package:client/core/providers/current_user/current_user_notifier.dart';
 import 'package:client/core/theme/app_pallete.dart';
 import 'package:client/core/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ class AudioPlayerPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentAudio = ref.watch(currentAudioProvider);
     final audioNotifier = ref.read(currentAudioProvider.notifier);
+    final token = ref.watch(currentUserProvider)?.token ?? '';
 
     final imageURL = currentAudio?.imageURL ?? '';
     final audioName = currentAudio?.name ?? '';
@@ -77,7 +79,10 @@ class AudioPlayerPage extends ConsumerWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage(imageURL),
+                        image: NetworkImage(
+                          imageURL,
+                          headers: {'Authorization': 'Bearer $token'},
+                        ),
                         fit: BoxFit.cover,
                       ),
                       borderRadius: BorderRadius.circular(12),
@@ -126,7 +131,7 @@ class AudioPlayerPage extends ConsumerWidget {
                     ],
                   ),
                   StreamBuilder(
-                    stream: audioNotifier.audioPlayer?.positionStream,
+                    stream: audioNotifier.getAudioPlayer()?.positionStream,
                     builder: (context, asyncSnapshot) {
                       if (asyncSnapshot.connectionState ==
                           ConnectionState.waiting) {
@@ -134,7 +139,7 @@ class AudioPlayerPage extends ConsumerWidget {
                       }
 
                       final position = asyncSnapshot.data;
-                      final duration = audioNotifier.audioPlayer!.duration;
+                      final duration = audioNotifier.getAudioPlayer()!.duration;
 
                       double sliderValue = 0;
                       if (position != null && duration != null) {
@@ -210,7 +215,7 @@ class AudioPlayerPage extends ConsumerWidget {
                       IconButton(
                         onPressed: audioNotifier.playPause,
                         icon: Icon(
-                          audioNotifier.isPlaying
+                          audioNotifier.getIsPlaying()
                               ? Icons.pause_circle_filled_rounded
                               : Icons.play_circle_fill_rounded,
                         ),

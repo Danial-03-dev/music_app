@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:client/core/constants/server_constants.dart';
-import 'package:client/features/home/repositories/home_repository.dart';
+import 'package:client/features/home/repositories/home_remote_repository.dart';
 
 class AudioModel {
   final String id;

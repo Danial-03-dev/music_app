@@ -1,5 +1,6 @@
 import 'package:client/core/providers/current_user/current_user_notifier.dart';
 import 'package:client/features/home/models/audio_model.dart';
+import 'package:flutter/rendering.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -7,16 +8,19 @@ part 'current_audio_notifier.g.dart';
 
 @riverpod
 class CurrentAudioNotifier extends _$CurrentAudioNotifier {
-  AudioPlayer? audioPlayer;
-  bool isPlaying = false;
+  AudioPlayer? _audioPlayer;
+  bool _isPlaying = false;
 
   @override
   AudioModel? build() {
     return null;
   }
 
+  AudioPlayer? getAudioPlayer() => _audioPlayer;
+  bool getIsPlaying() => _isPlaying;
+
   void updateAudio(AudioModel audio) async {
-    audioPlayer = AudioPlayer();
+    _audioPlayer = AudioPlayer();
     final token = ref.watch(currentUserProvider)?.token ?? '';
 
     try {
@@ -24,40 +28,40 @@ class CurrentAudioNotifier extends _$CurrentAudioNotifier {
         Uri.parse(await audio.audioURL(token)),
       );
 
-      await audioPlayer!.setAudioSource(audioSource);
+      await _audioPlayer!.setAudioSource(audioSource);
 
-      audioPlayer!.playerStateStream.listen((state) {
+      _audioPlayer!.playerStateStream.listen((state) {
         if (state.processingState == ProcessingState.completed) {
-          audioPlayer!.seek(Duration.zero);
-          audioPlayer!.pause();
-          isPlaying = false;
+          _audioPlayer!.seek(Duration.zero);
+          _audioPlayer!.pause();
+          _isPlaying = false;
           this.state = this.state?.copyWith();
         }
       });
 
-      audioPlayer!.play();
-      isPlaying = true;
+      _audioPlayer!.play();
+      _isPlaying = true;
 
       state = audio;
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
     }
   }
 
   void playPause() {
-    if (isPlaying) {
-      audioPlayer?.pause();
+    if (_isPlaying) {
+      _audioPlayer?.pause();
     } else {
-      audioPlayer?.play();
+      _audioPlayer?.play();
     }
 
-    isPlaying = !isPlaying;
+    _isPlaying = !_isPlaying;
     state = state?.copyWith();
   }
 
   void seek(double val) {
-    final audioDuration = audioPlayer?.duration?.inMilliseconds ?? 0;
+    final audioDuration = _audioPlayer?.duration?.inMilliseconds ?? 0;
 
-    audioPlayer?.seek(Duration(milliseconds: (val * audioDuration).toInt()));
+    _audioPlayer?.seek(Duration(milliseconds: (val * audioDuration).toInt()));
   }
 }

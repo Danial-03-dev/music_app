@@ -1,4 +1,5 @@
 import 'package:client/core/providers/current_audio/current_audio_notifier.dart';
+import 'package:client/core/providers/current_user/current_user_notifier.dart';
 import 'package:client/core/theme/app_pallete.dart';
 import 'package:client/core/utils/utils.dart';
 import 'package:client/features/home/view/pages/audio_player_page.dart';
@@ -12,6 +13,7 @@ class AudioSlab extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentAudio = ref.watch(currentAudioProvider);
     final audioNotifier = ref.read(currentAudioProvider.notifier);
+    final token = ref.watch(currentUserProvider)?.token ?? '';
 
     if (currentAudio == null) {
       return const SizedBox();
@@ -49,7 +51,10 @@ class AudioSlab extends ConsumerWidget {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4),
                           image: DecorationImage(
-                            image: NetworkImage(imageURL),
+                            image: NetworkImage(
+                              imageURL,
+                              headers: {'Authorization': 'Bearer $token'},
+                            ),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -90,7 +95,7 @@ class AudioSlab extends ConsumerWidget {
                     IconButton(
                       onPressed: audioNotifier.playPause,
                       icon: Icon(
-                        audioNotifier.isPlaying
+                        audioNotifier.getIsPlaying()
                             ? Icons.pause
                             : Icons.play_arrow_rounded,
                         color: Pallete.whiteColor,
@@ -102,14 +107,14 @@ class AudioSlab extends ConsumerWidget {
             ),
           ),
           StreamBuilder(
-            stream: audioNotifier.audioPlayer?.positionStream,
+            stream: audioNotifier.getAudioPlayer()?.positionStream,
             builder: (context, asyncSnapshot) {
               if (asyncSnapshot.connectionState == ConnectionState.waiting) {
                 return const SizedBox();
               }
 
               final position = asyncSnapshot.data;
-              final duration = audioNotifier.audioPlayer!.duration;
+              final duration = audioNotifier.getAudioPlayer()!.duration;
 
               double sliderValue = 0;
               if (position != null && duration != null) {
