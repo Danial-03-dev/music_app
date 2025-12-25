@@ -1,7 +1,6 @@
 import 'package:client/core/utils/utils.dart';
-import 'package:client/features/auth/view/widgets/buttons/custom_text_button.dart';
-import 'package:client/features/auth/view/widgets/buttons/gradient_button.dart';
 import 'package:client/core/widgets/inputs/custom_field.dart';
+import 'package:client/features/auth/view/widgets/buttons/gradient_button.dart';
 import 'package:client/features/auth/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -42,10 +41,6 @@ class _SignupFormState extends ConsumerState<SignupForm> {
         );
   }
 
-  void handleLogin() {
-    Navigator.pop(context);
-  }
-
   @override
   Widget build(BuildContext context) {
     final isLoading = ref.watch(
@@ -55,7 +50,7 @@ class _SignupFormState extends ConsumerState<SignupForm> {
     ref.listen(authViewModelProvider, (_, next) {
       next.when(
         data: (data) {
-          showSnackBar(context, 'Account created successfully! Plese Login');
+          showSnackBar(context, 'Account created successfully, plese login!');
 
           Navigator.pop(context);
         },
@@ -69,44 +64,24 @@ class _SignupFormState extends ConsumerState<SignupForm> {
     return Form(
       key: formKey,
       child: Column(
-        spacing: 32,
-        mainAxisAlignment: MainAxisAlignment.center,
+        spacing: 20,
         children: [
-          const Text(
-            'Sign Up.',
-            style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
-          ),
           Column(
-            spacing: 20,
+            spacing: 16,
             children: [
-              Column(
-                spacing: 16,
-                children: [
-                  Customfield(controller: nameController, hintText: 'Name'),
-                  Customfield(controller: emailController, hintText: 'Email'),
-                  Customfield(
-                    controller: passwordController,
-                    hintText: 'Password',
-                    obscureText: true,
-                  ),
-                ],
-              ),
-              GradientButton(
-                text: 'Sign up',
-                onPressed: handleSignup,
-                loading: isLoading,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Already have an account? ',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  CustomTextButton(text: 'Login', onPressed: handleLogin),
-                ],
+              Customfield(controller: nameController, hintText: 'Name'),
+              Customfield(controller: emailController, hintText: 'Email'),
+              Customfield(
+                controller: passwordController,
+                hintText: 'Password',
+                obscureText: true,
               ),
             ],
+          ),
+          GradientButton(
+            text: 'Sign up',
+            onPressed: handleSignup,
+            loading: isLoading,
           ),
         ],
       ),

@@ -1,8 +1,6 @@
 import 'package:client/core/utils/utils.dart';
-import 'package:client/features/auth/view/pages/signup_page.dart';
-import 'package:client/features/auth/view/widgets/buttons/custom_text_button.dart';
-import 'package:client/features/auth/view/widgets/buttons/gradient_button.dart';
 import 'package:client/core/widgets/inputs/custom_field.dart';
+import 'package:client/features/auth/view/widgets/buttons/gradient_button.dart';
 import 'package:client/features/auth/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -40,10 +38,6 @@ class _LoginFormState extends ConsumerState<LoginForm> {
         );
   }
 
-  void handleSignup() {
-    Navigator.push(context, SignupPage.route());
-  }
-
   @override
   Widget build(BuildContext context) {
     final isLoading = ref.watch(
@@ -63,43 +57,23 @@ class _LoginFormState extends ConsumerState<LoginForm> {
     return Form(
       key: formKey,
       child: Column(
-        spacing: 32,
-        mainAxisAlignment: MainAxisAlignment.center,
+        spacing: 20,
         children: [
-          const Text(
-            'Login.',
-            style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
-          ),
           Column(
-            spacing: 20,
+            spacing: 16,
             children: [
-              Column(
-                spacing: 16,
-                children: [
-                  Customfield(controller: emailController, hintText: 'Email'),
-                  Customfield(
-                    controller: passwordController,
-                    hintText: 'Password',
-                    obscureText: true,
-                  ),
-                ],
-              ),
-              GradientButton(
-                text: 'Login',
-                onPressed: handleLogin,
-                loading: isLoading,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Don\'t have an account? ',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  CustomTextButton(text: 'Sign up', onPressed: handleSignup),
-                ],
+              Customfield(controller: emailController, hintText: 'Email'),
+              Customfield(
+                controller: passwordController,
+                hintText: 'Password',
+                obscureText: true,
               ),
             ],
+          ),
+          GradientButton(
+            text: 'Login',
+            onPressed: handleLogin,
+            loading: isLoading,
           ),
         ],
       ),

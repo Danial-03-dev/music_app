@@ -1,3 +1,4 @@
+import 'package:client/core/theme/app_pallete.dart';
 import 'package:flutter/material.dart';
 
 class Customfield extends StatelessWidget {
@@ -24,12 +25,18 @@ class Customfield extends StatelessWidget {
       obscureText: obscureText,
       readOnly: readOnly,
       onTap: onTap,
+      style: TextStyle(color: Pallete.whiteColor),
       validator: readOnly
           ? null
           : (value) {
               if (value!.trim().isEmpty) {
                 return '$hintText is missing!';
               }
+
+              if (value.length > 56) {
+                return 'Too long $hintText';
+              }
+
               return null;
             },
     );
