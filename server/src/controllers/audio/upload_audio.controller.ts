@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import { treeifyError } from "zod";
+import { z } from "zod";
 import { AUDIO_BUCKET_NAME, IMAGE_BUCKET_NAME } from "../../constants/constants";
 import { AudioModel } from "../../models/audio.model";
 import { AudioUploadSchema } from "../../schemas/audio.schemas";
@@ -61,7 +61,7 @@ export const uploadAudioController = async (req: Request, res: Response) => {
 
         return res.status(400).json({
             message: "Invalid audio upload data",
-            errors: treeifyError(parseResult.error),
+            errors: z.treeifyError(parseResult.error),
         });
     }
 
