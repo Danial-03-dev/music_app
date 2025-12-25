@@ -111,6 +111,100 @@ class HomeRemoteRepository {
       return fpdart.Left(Failure(message: e.toString()));
     }
   }
+
+  Future<fpdart.Either<Failure, List<AudioModel>>> getFavoriteAudioList({
+    required String token,
+  }) async {
+    try {
+      final response = await http.get(
+        Uri.parse('$_audioURI/favorite'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      var responseBodyMap = jsonDecode(response.body);
+
+      if (response.statusCode != 200) {
+        responseBodyMap = responseBodyMap as Map<String, dynamic>;
+        return fpdart.Left(Failure(message: responseBodyMap['message']));
+      }
+
+      responseBodyMap = responseBodyMap as List;
+
+      final List<AudioModel> audios = [];
+      for (final map in responseBodyMap) {
+        audios.add(AudioModel.fromMap(map['audio']));
+      }
+
+      return fpdart.Right(audios);
+    } catch (e) {
+      return fpdart.Left(Failure(message: e.toString()));
+    }
+  }
+
+  Future<fpdart.Either<Failure, AudioModel>> addFavoriteAudio({
+    required String token,
+    required String audioId,
+  }) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$_audioURI/favorite'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({'id': audioId}),
+      );
+
+      var responseBodyMap = jsonDecode(response.body);
+
+      if (response.statusCode != 200) {
+        responseBodyMap = responseBodyMap as Map<String, dynamic>;
+        return fpdart.Left(Failure(message: responseBodyMap['message']));
+      }
+
+      responseBodyMap = responseBodyMap as Map<String, dynamic>;
+
+      final audio = AudioModel.fromMap(responseBodyMap);
+
+      return fpdart.Right(audio);
+    } catch (e) {
+      return fpdart.Left(Failure(message: e.toString()));
+    }
+  }
+
+  Future<fpdart.Either<Failure, AudioModel>> removeFavoriteAudio({
+    required String token,
+    required String audioId,
+  }) async {
+    try {
+      final response = await http.delete(
+        Uri.parse('$_audioURI/favorite'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({'id': audioId}),
+      );
+
+      var responseBodyMap = jsonDecode(response.body);
+
+      if (response.statusCode != 200) {
+        responseBodyMap = responseBodyMap as Map<String, dynamic>;
+        return fpdart.Left(Failure(message: responseBodyMap['message']));
+      }
+
+      responseBodyMap = responseBodyMap as Map<String, dynamic>;
+
+      final audio = AudioModel.fromMap(responseBodyMap);
+
+      return fpdart.Right(audio);
+    } catch (e) {
+      return fpdart.Left(Failure(message: e.toString()));
+    }
+  }
 }
 
 Future<String> getAudioSignedUrl(String token, String audioId) async {

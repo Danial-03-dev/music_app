@@ -24,6 +24,19 @@ Future<List<AudioModel>> getAudioList(Ref ref) async {
 }
 
 @riverpod
+Future<List<AudioModel>> getFavoriteAudioList(Ref ref) async {
+  final token = ref.watch(currentUserProvider)?.token ?? '';
+  final response = await ref
+      .watch(homeRepositoryProvider)
+      .getFavoriteAudioList(token: token);
+
+  return switch (response) {
+    fpdart.Left(value: final l) => throw l.message,
+    fpdart.Right(value: final r) => r,
+  };
+}
+
+@riverpod
 class HomeViewModel extends _$HomeViewModel {
   late HomeRemoteRepository _homeRepository;
 
@@ -67,5 +80,43 @@ class HomeViewModel extends _$HomeViewModel {
       homeLocalRepositoryProvider.future,
     );
     return homeLocalRepository.loadLocalAudios();
+  }
+
+  Future<void> addFavoriteAudio({required String audioId}) async {
+    state = const AsyncValue.loading();
+
+    final token = ref.read(currentUserProvider)?.token ?? '';
+
+    final response = await _homeRepository.addFavoriteAudio(
+      audioId: audioId,
+      token: token,
+    );
+
+    state = switch (response) {
+      fpdart.Left(value: final l) => AsyncValue.error(
+        l.message,
+        StackTrace.current,
+      ),
+      fpdart.Right(value: final r) => AsyncValue.data(r),
+    };
+  }
+
+  Future<void> removeFavoriteAudio({required String audioId}) async {
+    state = const AsyncValue.loading();
+
+    final token = ref.read(currentUserProvider)?.token ?? '';
+
+    final response = await _homeRepository.removeFavoriteAudio(
+      audioId: audioId,
+      token: token,
+    );
+
+    state = switch (response) {
+      fpdart.Left(value: final l) => AsyncValue.error(
+        l.message,
+        StackTrace.current,
+      ),
+      fpdart.Right(value: final r) => AsyncValue.data(r),
+    };
   }
 }

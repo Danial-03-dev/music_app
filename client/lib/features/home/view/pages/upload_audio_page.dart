@@ -13,6 +13,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UploadAudioPage extends ConsumerStatefulWidget {
+  static PageRoute route() =>
+      MaterialPageRoute(builder: (context) => const UploadAudioPage());
+
   const UploadAudioPage({super.key});
 
   @override

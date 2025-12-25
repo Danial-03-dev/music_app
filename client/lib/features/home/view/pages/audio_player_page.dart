@@ -2,6 +2,7 @@ import 'package:client/core/providers/current_audio/current_audio_notifier.dart'
 import 'package:client/core/providers/current_user/current_user_notifier.dart';
 import 'package:client/core/theme/app_pallete.dart';
 import 'package:client/core/utils/utils.dart';
+import 'package:client/features/home/view_model/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -34,6 +35,13 @@ class AudioPlayerPage extends ConsumerWidget {
     final audioName = currentAudio?.name ?? '';
     final artist = currentAudio?.artist ?? '';
     final color = currentAudio?.hexColor ?? '#FFFFFF';
+    final audioId = currentAudio?.id ?? '';
+
+    void handleFavoriteAudio() async {
+      await ref
+          .read(homeViewModelProvider.notifier)
+          .addFavoriteAudio(audioId: audioId);
+    }
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -122,7 +130,7 @@ class AudioPlayerPage extends ConsumerWidget {
                         ],
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: handleFavoriteAudio,
                         icon: Icon(
                           Icons.favorite_border_outlined,
                           color: Pallete.whiteColor,

@@ -3,6 +3,7 @@ import 'package:client/core/providers/current_user/current_user_notifier.dart';
 import 'package:client/core/theme/app_pallete.dart';
 import 'package:client/core/utils/utils.dart';
 import 'package:client/features/home/view/pages/audio_player_page.dart';
+import 'package:client/features/home/view_model/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -23,6 +24,13 @@ class AudioSlab extends ConsumerWidget {
     final audioName = currentAudio.name;
     final artist = currentAudio.artist;
     final color = hexToColor(currentAudio.hexColor);
+    final audioId = currentAudio.id;
+
+    void handleFavoriteAudio() async {
+      await ref
+          .read(homeViewModelProvider.notifier)
+          .addFavoriteAudio(audioId: audioId);
+    }
 
     return GestureDetector(
       onTap: () {
@@ -87,7 +95,7 @@ class AudioSlab extends ConsumerWidget {
                 Row(
                   children: [
                     IconButton(
-                      onPressed: () {},
+                      onPressed: handleFavoriteAudio,
                       icon: const Icon(
                         Icons.favorite_border_outlined,
                         color: Pallete.whiteColor,
