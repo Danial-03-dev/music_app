@@ -30,9 +30,10 @@ class AudioSlab extends ConsumerWidget {
       },
       child: Stack(
         children: [
-          Container(
+          AnimatedContainer(
             height: 66,
             width: MediaQuery.of(context).size.width - 16,
+            duration: const Duration(milliseconds: 500),
             decoration: BoxDecoration(
               color: color,
               borderRadius: BorderRadius.circular(4),

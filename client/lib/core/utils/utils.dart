@@ -72,16 +72,21 @@ String colorToHex(Color color) {
   final hexRadix = 16;
   final totalCharacters = 2;
   final spacing = '0';
+  final rgbCode = 255;
 
-  final r = color.r
+  final rInt = (color.r * rgbCode).round();
+  final gInt = (color.g * rgbCode).round();
+  final bInt = (color.b * rgbCode).round();
+
+  final r = rInt
       .round()
       .toRadixString(hexRadix)
       .padLeft(totalCharacters, spacing);
-  final g = color.g
+  final g = gInt
       .round()
       .toRadixString(hexRadix)
       .padLeft(totalCharacters, spacing);
-  final b = color.b
+  final b = bInt
       .round()
       .toRadixString(hexRadix)
       .padLeft(totalCharacters, spacing);

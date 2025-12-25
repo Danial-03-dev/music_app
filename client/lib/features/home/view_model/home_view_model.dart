@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:client/core/providers/current_user/current_user_notifier.dart';
 import 'package:client/core/utils/utils.dart';
 import 'package:client/features/home/models/audio_model.dart';
+import 'package:client/features/home/repositories/home_local_repository.dart';
 import 'package:client/features/home/repositories/home_remote_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:fpdart/fpdart.dart' as fpdart;
@@ -24,7 +25,7 @@ Future<List<AudioModel>> getAudioList(Ref ref) async {
 
 @riverpod
 class HomeViewModel extends _$HomeViewModel {
-  late HomeRepository _homeRepository;
+  late HomeRemoteRepository _homeRepository;
 
   @override
   AsyncValue? build() {
@@ -59,5 +60,12 @@ class HomeViewModel extends _$HomeViewModel {
       ),
       fpdart.Right(value: final r) => AsyncValue.data(r),
     };
+  }
+
+  Future<List<AudioModel>> getRecentAudios() async {
+    final homeLocalRepository = await ref.read(
+      homeLocalRepositoryProvider.future,
+    );
+    return homeLocalRepository.loadLocalAudios();
   }
 }

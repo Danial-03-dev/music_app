@@ -13,8 +13,13 @@ part of 'home_remote_repository.dart';
 const homeRepositoryProvider = HomeRepositoryProvider._();
 
 final class HomeRepositoryProvider
-    extends $FunctionalProvider<HomeRepository, HomeRepository, HomeRepository>
-    with $Provider<HomeRepository> {
+    extends
+        $FunctionalProvider<
+          HomeRemoteRepository,
+          HomeRemoteRepository,
+          HomeRemoteRepository
+        >
+    with $Provider<HomeRemoteRepository> {
   const HomeRepositoryProvider._()
     : super(
         from: null,
@@ -31,21 +36,22 @@ final class HomeRepositoryProvider
 
   @$internal
   @override
-  $ProviderElement<HomeRepository> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+  $ProviderElement<HomeRemoteRepository> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
-  HomeRepository create(Ref ref) {
+  HomeRemoteRepository create(Ref ref) {
     return homeRepository(ref);
   }
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(HomeRepository value) {
+  Override overrideWithValue(HomeRemoteRepository value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<HomeRepository>(value),
+      providerOverride: $SyncValueProvider<HomeRemoteRepository>(value),
     );
   }
 }
 
-String _$homeRepositoryHash() => r'a7ad35b71d152c2f2e026facffd4f91979e425ab';
+String _$homeRepositoryHash() => r'97b1d1d46f9db6fa1b9f5bdec9e833d407fa306c';

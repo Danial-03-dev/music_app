@@ -42,7 +42,7 @@ final class CurrentAudioNotifierProvider
 }
 
 String _$currentAudioNotifierHash() =>
-    r'8f1a1c43e1998b89b792da9bd877318d5b1ddb5f';
+    r'0d960b5e81b8db0ffc3629a54d4be711957aa4cc';
 
 abstract class _$CurrentAudioNotifier extends $Notifier<AudioModel?> {
   AudioModel? build();
