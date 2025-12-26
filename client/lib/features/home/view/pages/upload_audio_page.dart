@@ -100,18 +100,23 @@ class _UploadAudioPageState extends ConsumerState<UploadAudioPage> {
       appBar: UploadAudioAppBar(onUpload: handleUploadAudio),
       body: CustomScrollConfig(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: UploadAudioForm(
-              formKey: formKey,
-              songNameController: songNameController,
-              artistController: artistController,
-              selectedColor: selectedColor,
-              selectedImage: selectedImage,
-              selectedAudio: selectedAudio,
-              selectAudio: selectAudio,
-              selectImage: selectImage,
-              onColorChanged: onColorChanged,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 512),
+                child: UploadAudioForm(
+                  formKey: formKey,
+                  songNameController: songNameController,
+                  artistController: artistController,
+                  selectedColor: selectedColor,
+                  selectedImage: selectedImage,
+                  selectedAudio: selectedAudio,
+                  selectAudio: selectAudio,
+                  selectImage: selectImage,
+                  onColorChanged: onColorChanged,
+                ),
+              ),
             ),
           ),
         ),

@@ -32,8 +32,13 @@ class AudioPlayer extends StatelessWidget {
             children: [
               PlayerInfo(audio: audio),
               const PlayerAudioStream(),
-              const PlayerActions(),
-              const PlayerExtras(),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 512),
+                child: Column(
+                  spacing: 16,
+                  children: [const PlayerActions(), const PlayerExtras()],
+                ),
+              ),
             ],
           ),
         ),
