@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:client/core/theme/app_pallete.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -102,4 +103,12 @@ Color hexToColor(String hex) {
   }
 
   return Color(int.parse(hex, radix: 16));
+}
+
+Color getTextColorForBackground(Color background) {
+  final brightness = ThemeData.estimateBrightnessForColor(background);
+
+  return brightness == Brightness.dark
+      ? Pallete.whiteColor
+      : Pallete.backgroundColor;
 }

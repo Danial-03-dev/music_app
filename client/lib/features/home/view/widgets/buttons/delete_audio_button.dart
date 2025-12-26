@@ -37,7 +37,7 @@ class _DeleteAudioButtonState extends ConsumerState<DeleteAudioButton> {
         ? const SizedBox(width: iconSize, height: iconSize, child: Loader())
         : CustomIconButton(
             onPressed: handleDeleteAudio,
-            icon: Icons.delete_rounded,
+            icon: Icons.delete,
             iconSize: iconSize,
             color: Pallete.errorColor,
           );

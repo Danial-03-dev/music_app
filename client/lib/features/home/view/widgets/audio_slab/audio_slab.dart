@@ -21,6 +21,7 @@ class AudioSlab extends ConsumerWidget {
     }
 
     final color = hexToColor(currentAudio.hexColor);
+    final contrastColor = getTextColorForBackground(color);
 
     return Semantics(
       label: 'Open audio in player',
@@ -43,12 +44,12 @@ class AudioSlab extends ConsumerWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AudioSlabInfo(audio: currentAudio),
-                  AudioSlabActions(),
+                  AudioSlabInfo(audio: currentAudio, color: contrastColor),
+                  AudioSlabActions(color: contrastColor),
                 ],
               ),
             ),
-            AudioSlabStream(),
+            AudioSlabStream(color: contrastColor),
             AudioSlabProgressBar(
               width: MediaQuery.of(context).size.width - 32,
               color: Pallete.inactiveSeekColor,

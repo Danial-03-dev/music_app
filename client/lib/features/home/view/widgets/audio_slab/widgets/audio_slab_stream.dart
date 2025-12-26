@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AudioSlabStream extends ConsumerWidget {
-  const AudioSlabStream({super.key});
+  final Color? color;
+  const AudioSlabStream({super.key, this.color});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,6 +28,7 @@ class AudioSlabStream extends ConsumerWidget {
 
         return AudioSlabProgressBar(
           width: sliderValue * (MediaQuery.of(context).size.width - 32),
+          color: color,
         );
       },
     );

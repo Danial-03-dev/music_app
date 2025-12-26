@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AudioSlabActions extends ConsumerWidget {
-  const AudioSlabActions({super.key});
+  final Color? color;
+  const AudioSlabActions({super.key, this.color});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,11 +20,13 @@ class AudioSlabActions extends ConsumerWidget {
               ? Icons.pause
               : Icons.play_arrow_rounded,
           iconSize: 36,
+          color: color,
         ),
         CustomIconButton(
           onPressed: audioNotifier.stopPlayer,
           icon: CupertinoIcons.xmark_circle_fill,
           iconSize: 30,
+          color: color,
         ),
       ],
     );

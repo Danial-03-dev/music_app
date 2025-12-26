@@ -1,5 +1,5 @@
 import 'package:client/core/providers/current_audio/current_audio_notifier.dart';
-import 'package:client/core/theme/app_pallete.dart';
+import 'package:client/core/utils/utils.dart';
 import 'package:client/features/home/models/audio_model.dart';
 import 'package:client/features/home/view/widgets/image/image_container.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +14,7 @@ class RecentAudioListItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final imageURL = audio.imageURL;
     final name = audio.name;
+    final color = hexToColor(audio.hexColor);
 
     void handlePlayAudio() {
       ref.read(currentAudioProvider.notifier).updateAudio(audio);
@@ -27,7 +28,7 @@ class RecentAudioListItem extends ConsumerWidget {
         onTap: handlePlayAudio,
         child: Container(
           decoration: BoxDecoration(
-            color: Pallete.borderColor,
+            color: color,
             borderRadius: BorderRadius.circular(borderRadius),
           ),
           padding: const EdgeInsets.only(right: 8),
@@ -47,6 +48,7 @@ class RecentAudioListItem extends ConsumerWidget {
                   name,
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
                     overflow: TextOverflow.ellipsis,
+                    color: getTextColorForBackground(color),
                   ),
                   maxLines: 1,
                 ),

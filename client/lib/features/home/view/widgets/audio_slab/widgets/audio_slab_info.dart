@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 
 class AudioSlabInfo extends StatelessWidget {
   final AudioModel audio;
-  const AudioSlabInfo({super.key, required this.audio});
+  final Color? color;
+  const AudioSlabInfo({super.key, required this.audio, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +28,16 @@ class AudioSlabInfo extends StatelessWidget {
               audioName,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 overflow: TextOverflow.ellipsis,
+                color: color,
               ),
               maxLines: 1,
             ),
             Text(
               artist,
-              style: Theme.of(
-                context,
-              ).textTheme.titleSmall?.copyWith(overflow: TextOverflow.ellipsis),
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                overflow: TextOverflow.ellipsis,
+                color: color,
+              ),
               maxLines: 1,
             ),
           ],
