@@ -35,7 +35,7 @@ class LoginPage extends StatelessWidget {
                   children: [
                     Text(
                       'Don\'t have an account? ',
-                      style: Theme.of(context).textTheme.titleMedium,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     CustomTextButton(text: 'Sign up', onPressed: handleSignup),
                   ],

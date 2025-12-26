@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:client/core/providers/current_user/current_user_notifier.dart';
 import 'package:client/features/home/models/audio_model.dart';
 import 'package:client/features/home/repositories/home_local_repository.dart';
+import 'package:client/features/home/view_model/home_view_model.dart';
 import 'package:flutter/rendering.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
@@ -23,19 +24,33 @@ class CurrentAudioNotifier extends _$CurrentAudioNotifier {
       await _audioPlayer?.dispose();
     });
 
+    _initAudioPlayer();
+
     return null;
+  }
+
+  void _initAudioPlayer() {
+    _audioPlayer ??= AudioPlayer();
+    _playerSub ??= _audioPlayer!.playerStateStream.listen((state) {
+      if (state.processingState == ProcessingState.completed) {
+        _audioPlayer!.seek(Duration.zero);
+        _audioPlayer!.pause();
+        _isPlaying = false;
+        this.state = this.state?.copyWith();
+      }
+    });
   }
 
   AudioPlayer? getAudioPlayer() => _audioPlayer;
   bool getIsPlaying() => _isPlaying;
 
   Future<void> updateAudio(AudioModel audio) async {
-    await _playerSub?.cancel();
-    await _audioPlayer?.dispose();
-    _audioPlayer = AudioPlayer();
-    final token = ref.read(currentUserProvider)?.token ?? '';
+    if (audio.id == state?.id) {
+      return;
+    }
 
     try {
+      final token = ref.read(currentUserProvider)?.token ?? '';
       final audioSource = AudioSource.uri(
         Uri.parse(await audio.audioURL(token)),
         tag: MediaItem(
@@ -49,19 +64,11 @@ class CurrentAudioNotifier extends _$CurrentAudioNotifier {
 
       await _audioPlayer!.setAudioSource(audioSource);
 
-      _playerSub = _audioPlayer!.playerStateStream.listen((state) {
-        if (state.processingState == ProcessingState.completed) {
-          _audioPlayer!.seek(Duration.zero);
-          _audioPlayer!.pause();
-          _isPlaying = false;
-          this.state = this.state?.copyWith();
-        }
-      });
-
       final homeLocalRepository = await ref.read(
         homeLocalRepositoryProvider.future,
       );
       homeLocalRepository.uploadLocalAudio(audio);
+      ref.invalidate(getLocalAudioListProvider);
 
       _audioPlayer!.play();
       _isPlaying = true;
@@ -87,5 +94,11 @@ class CurrentAudioNotifier extends _$CurrentAudioNotifier {
     final audioDuration = _audioPlayer?.duration?.inMilliseconds ?? 0;
 
     _audioPlayer?.seek(Duration(milliseconds: (val * audioDuration).toInt()));
+  }
+
+  void stopPlayer() {
+    _isPlaying = false;
+    _audioPlayer?.pause();
+    state = null;
   }
 }

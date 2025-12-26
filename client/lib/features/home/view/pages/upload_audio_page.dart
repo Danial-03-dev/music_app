@@ -1,14 +1,9 @@
-import 'dart:io';
-
 import 'package:client/core/theme/app_pallete.dart';
 import 'package:client/core/utils/utils.dart';
-import 'package:client/core/widgets/inputs/custom_field.dart';
-import 'package:client/core/widgets/loader.dart';
-import 'package:client/features/home/view/widgets/audio_wave.dart';
+import 'package:client/core/widgets/custom_scroll_config.dart';
+import 'package:client/features/home/view/widgets/app_bars/upload_audio_app_bar.dart';
+import 'package:client/features/home/view/widgets/forms/upload_audio_form.dart';
 import 'package:client/features/home/view_model/home_view_model.dart';
-import 'package:dotted_border/dotted_border.dart';
-import 'package:flex_color_picker/flex_color_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -44,6 +39,12 @@ class _UploadAudioPageState extends ConsumerState<UploadAudioPage> {
 
     setState(() {
       selectedImage = pickedImage;
+    });
+  }
+
+  void onColorChanged(Color color) {
+    setState(() {
+      selectedColor = color;
     });
   }
 
@@ -83,95 +84,34 @@ class _UploadAudioPageState extends ConsumerState<UploadAudioPage> {
 
   @override
   Widget build(BuildContext context) {
-    final isNotMobile = kIsWeb || !(Platform.isAndroid || Platform.isIOS);
-    final bool isLoading = ref.watch(
-      homeViewModelProvider.select((value) => value?.isLoading == true),
-    );
+    ref.listen(homeViewModelProvider, (_, next) {
+      next?.when(
+        data: (_) {
+          showSnackBar(context, 'Audio uploaded successfully!');
+        },
+        error: (error, st) {
+          showSnackBar(context, error.toString());
+        },
+        loading: () {},
+      );
+    });
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Upload Song'),
-        actions: [
-          isLoading
-              ? Loader()
-              : IconButton(
-                  onPressed: handleUploadAudio,
-                  icon: Icon(Icons.check),
-                ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Form(
-            key: formKey,
-            child: Column(
-              spacing: 40,
-              children: [
-                GestureDetector(
-                  onTap: selectImage,
-                  child: DottedBorder(
-                    options: RoundedRectDottedBorderOptions(
-                      color: Pallete.borderColor,
-                      dashPattern: [12, 4],
-                      radius: Radius.circular(12),
-                      strokeCap: StrokeCap.round,
-                    ),
-                    child: SizedBox(
-                      height: 152,
-                      width: double.infinity,
-                      child: selectedImage != null
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image.memory(
-                                selectedImage!.bytes!,
-                                fit: BoxFit.cover,
-                              ),
-                            )
-                          : const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              spacing: 16,
-                              children: [
-                                Icon(Icons.folder_open, size: 40),
-                                Text(
-                                  'Select the thumbnail for your song',
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ],
-                            ),
-                    ),
-                  ),
-                ),
-                Column(
-                  spacing: 20,
-                  children: [
-                    selectedAudio != null && !isNotMobile
-                        ? AudioWave(path: selectedAudio!.file!.path)
-                        : Customfield(
-                            hintText: selectedAudio?.name ?? 'Pick Song',
-                            readOnly: true,
-                            onTap: selectAudio,
-                          ),
-                    Customfield(
-                      hintText: 'Song Name',
-                      controller: songNameController,
-                    ),
-                    Customfield(
-                      hintText: 'Artist',
-                      controller: artistController,
-                    ),
-                    ColorPicker(
-                      pickersEnabled: {ColorPickerType.wheel: true},
-                      color: selectedColor,
-                      onColorChanged: (color) {
-                        setState(() {
-                          selectedColor = color;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ],
+      appBar: UploadAudioAppBar(onUpload: handleUploadAudio),
+      body: CustomScrollConfig(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: UploadAudioForm(
+              formKey: formKey,
+              songNameController: songNameController,
+              artistController: artistController,
+              selectedColor: selectedColor,
+              selectedImage: selectedImage,
+              selectedAudio: selectedAudio,
+              selectAudio: selectAudio,
+              selectImage: selectImage,
+              onColorChanged: onColorChanged,
             ),
           ),
         ),

@@ -1,22 +1,25 @@
-import 'package:client/core/theme/app_pallete.dart';
 import 'package:client/features/home/view/pages/audios_page.dart';
 import 'package:client/features/home/view/pages/library_page.dart';
-import 'package:client/features/home/view/widgets/audio_slab.dart';
+import 'package:client/features/home/view/widgets/audio_slab/audio_slab.dart';
+import 'package:client/features/home/view/widgets/nav/home_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomePage extends ConsumerStatefulWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  ConsumerState<HomePage> createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends ConsumerState<HomePage> {
+class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
-  final assetsPath = 'assets/images';
-
   final pages = const [AudiosPage(), LibraryPage()];
+
+  void handleNavigation(int value) {
+    setState(() {
+      currentIndex = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,35 +30,10 @@ class _HomePageState extends ConsumerState<HomePage> {
           const Positioned(bottom: 0, child: AudioSlab()),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
+
+      bottomNavigationBar: HomeBottomNavBar(
         currentIndex: currentIndex,
-        onTap: (value) {
-          setState(() {
-            currentIndex = value;
-          });
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Image.asset(
-              currentIndex == 0
-                  ? '$assetsPath/home_filled.png'
-                  : '$assetsPath/home_unfilled.png',
-              color: currentIndex == 0
-                  ? Pallete.whiteColor
-                  : Pallete.inactiveBottomBarItemColor,
-            ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset(
-              '$assetsPath/library.png',
-              color: currentIndex == 1
-                  ? Pallete.whiteColor
-                  : Pallete.inactiveBottomBarItemColor,
-            ),
-            label: 'Library',
-          ),
-        ],
+        onTap: handleNavigation,
       ),
     );
   }

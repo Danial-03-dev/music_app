@@ -24,16 +24,11 @@ Future<List<AudioModel>> getAudioList(Ref ref) async {
 }
 
 @riverpod
-Future<List<AudioModel>> getFavoriteAudioList(Ref ref) async {
-  final token = ref.watch(currentUserProvider)?.token ?? '';
-  final response = await ref
-      .watch(homeRepositoryProvider)
-      .getFavoriteAudioList(token: token);
-
-  return switch (response) {
-    fpdart.Left(value: final l) => throw l.message,
-    fpdart.Right(value: final r) => r,
-  };
+Future<List<AudioModel>> getLocalAudioList(Ref ref) async {
+  final homeLocalRepository = await ref.watch(
+    homeLocalRepositoryProvider.future,
+  );
+  return homeLocalRepository.loadLocalAudios();
 }
 
 @riverpod
@@ -66,57 +61,17 @@ class HomeViewModel extends _$HomeViewModel {
       token: token,
     );
 
-    state = switch (response) {
-      fpdart.Left(value: final l) => AsyncValue.error(
-        l.message,
-        StackTrace.current,
-      ),
-      fpdart.Right(value: final r) => AsyncValue.data(r),
-    };
-  }
-
-  Future<List<AudioModel>> getRecentAudios() async {
-    final homeLocalRepository = await ref.read(
-      homeLocalRepositoryProvider.future,
-    );
-    return homeLocalRepository.loadLocalAudios();
-  }
-
-  Future<void> addFavoriteAudio({required String audioId}) async {
-    state = const AsyncValue.loading();
-
-    final token = ref.read(currentUserProvider)?.token ?? '';
-
-    final response = await _homeRepository.addFavoriteAudio(
-      audioId: audioId,
-      token: token,
-    );
+    AsyncValue<String> onSuccess(String r) {
+      ref.invalidate(getAudioListProvider);
+      return AsyncValue.data(r);
+    }
 
     state = switch (response) {
       fpdart.Left(value: final l) => AsyncValue.error(
         l.message,
         StackTrace.current,
       ),
-      fpdart.Right(value: final r) => AsyncValue.data(r),
-    };
-  }
-
-  Future<void> removeFavoriteAudio({required String audioId}) async {
-    state = const AsyncValue.loading();
-
-    final token = ref.read(currentUserProvider)?.token ?? '';
-
-    final response = await _homeRepository.removeFavoriteAudio(
-      audioId: audioId,
-      token: token,
-    );
-
-    state = switch (response) {
-      fpdart.Left(value: final l) => AsyncValue.error(
-        l.message,
-        StackTrace.current,
-      ),
-      fpdart.Right(value: final r) => AsyncValue.data(r),
+      fpdart.Right(value: final r) => onSuccess(r),
     };
   }
 }

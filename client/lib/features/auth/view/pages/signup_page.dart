@@ -37,7 +37,7 @@ class SignupPage extends StatelessWidget {
                   children: [
                     Text(
                       'Already have an account? ',
-                      style: Theme.of(context).textTheme.titleMedium,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     CustomTextButton(text: 'Login', onPressed: handleLogin),
                   ],
