@@ -53,3 +53,4 @@ export function validateAudioSignature(audioId: string, exp: string | undefined,
         throw new Error('Invalid signature');
     }
 }
+

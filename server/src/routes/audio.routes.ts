@@ -9,6 +9,7 @@ import { getAudioSignedUrlController } from "../controllers/audio/get_audio_sign
 import { addFavoriteAudioController } from "../controllers/audio/add_favorite_audio.controller";
 import { removeFavoriteAudioController } from "../controllers/audio/remove_favorite_audio.controller";
 import { getFavoriteAudiosController } from "../controllers/audio/get_favorite_audios.controller";
+import { deleteAudioController } from "../controllers/audio/delete_audio.controller";
 
 export const audioRouter = Router();
 
@@ -17,6 +18,7 @@ audioRouter.get('/signed-url/:id', authMiddleware, getAudioSignedUrlController);
 audioRouter.get('/stream/:id', getMediaController(AUDIO_BUCKET_NAME, true));
 audioRouter.get('/list', authMiddleware, getAudioListController);
 audioRouter.post('/upload', authMiddleware, uploadAudioAndImageMiddleware, uploadAudioController);
+audioRouter.delete('/delete', authMiddleware, deleteAudioController);
 
 // Favorite audio routes
 audioRouter.get('/favorite', authMiddleware, getFavoriteAudiosController);
