@@ -85,7 +85,7 @@ final class GetLocalAudioListProvider
   }
 }
 
-String _$getLocalAudioListHash() => r'84b5d74899561d98acacff50a49c79aff358d5bb';
+String _$getLocalAudioListHash() => r'4c4c77bc5f3b46bf9646ae57f2ed25a61ebcadf9';
 
 @ProviderFor(HomeViewModel)
 const homeViewModelProvider = HomeViewModelProvider._();
@@ -119,7 +119,7 @@ final class HomeViewModelProvider
   }
 }
 
-String _$homeViewModelHash() => r'406b20d79c8b90828ac03e398f9e218432dbba45';
+String _$homeViewModelHash() => r'd45b176d29d9003d1560e41dc31932722631269e';
 
 abstract class _$HomeViewModel extends $Notifier<AsyncValue<dynamic>?> {
   AsyncValue<dynamic>? build();

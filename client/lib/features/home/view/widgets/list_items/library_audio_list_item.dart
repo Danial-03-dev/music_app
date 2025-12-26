@@ -2,7 +2,7 @@ import 'package:client/core/providers/current_audio/current_audio_notifier.dart'
 import 'package:client/core/providers/current_user/current_user_notifier.dart';
 import 'package:client/core/theme/app_pallete.dart';
 import 'package:client/features/home/models/audio_model.dart';
-import 'package:client/features/home/view/widgets/buttons/custom_icon_button.dart';
+import 'package:client/features/home/view/widgets/buttons/delete_audio_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -47,12 +47,7 @@ class LibraryAudioListItem extends ConsumerWidget {
         ).textTheme.bodyMedium?.copyWith(overflow: TextOverflow.ellipsis),
         maxLines: 1,
       ),
-      trailing: CustomIconButton(
-        onPressed: () {},
-        icon: Icons.delete_rounded,
-        iconSize: 24,
-        color: Pallete.errorColor,
-      ),
+      trailing: DeleteAudioButton(audio: audio),
     );
   }
 }

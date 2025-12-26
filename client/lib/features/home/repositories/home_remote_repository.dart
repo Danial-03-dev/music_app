@@ -111,6 +111,32 @@ class HomeRemoteRepository {
       return fpdart.Left(Failure(message: e.toString()));
     }
   }
+
+  Future<fpdart.Either<Failure, AudioModel>> deleteAudio({
+    required AudioModel audio,
+    required String token,
+  }) async {
+    try {
+      final response = await http.delete(
+        Uri.parse('$_audioURI/delete'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode(audio.toMap()),
+      );
+
+      final responseBodyMap = jsonDecode(response.body) as Map<String, dynamic>;
+
+      if (response.statusCode != 200) {
+        return fpdart.Left(Failure(message: responseBodyMap['message']));
+      }
+
+      return fpdart.Right(AudioModel.fromMap(responseBodyMap));
+    } catch (e) {
+      return fpdart.Left(Failure(message: e.toString()));
+    }
+  }
 }
 
 Future<String> getAudioSignedUrl(String token, String audioId) async {

@@ -37,6 +37,14 @@ class HomeLocalRepository {
     }
   }
 
+  void deleteAudio(String audioId) {
+    try {
+      box.delete(audioId);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
   List<AudioModel> loadLocalAudios() {
     List<AudioModel> audios = [];
 
