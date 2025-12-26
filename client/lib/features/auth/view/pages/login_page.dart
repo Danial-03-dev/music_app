@@ -1,5 +1,6 @@
 import 'package:client/features/auth/view/pages/signup_page.dart';
 import 'package:client/features/auth/view/widgets/buttons/custom_text_button.dart';
+import 'package:client/features/auth/view/widgets/buttons/demo_login_button.dart';
 import 'package:client/features/auth/view/widgets/forms/login_form.dart';
 import 'package:flutter/material.dart';
 
@@ -40,6 +41,8 @@ class LoginPage extends StatelessWidget {
                     CustomTextButton(text: 'Sign up', onPressed: handleSignup),
                   ],
                 ),
+
+                const DemoLoginButton(),
               ],
             ),
           ),

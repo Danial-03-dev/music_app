@@ -10,6 +10,8 @@ class UploadAudioAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    const double iconSize = 24;
+
     final bool isLoading = ref.watch(
       homeViewModelProvider.select((value) => value?.isLoading == true),
     );
@@ -17,16 +19,20 @@ class UploadAudioAppBar extends ConsumerWidget implements PreferredSizeWidget {
     return AppBar(
       title: const Text('Upload Song'),
       actions: [
-        isLoading
-            ? const Loader()
-            : Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: CustomIconButton(
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: isLoading
+              ? const SizedBox(
+                  width: iconSize,
+                  height: iconSize,
+                  child: Loader(),
+                )
+              : CustomIconButton(
                   onPressed: onUpload,
                   icon: Icons.check,
-                  iconSize: 24,
+                  iconSize: iconSize,
                 ),
-              ),
+        ),
       ],
     );
   }

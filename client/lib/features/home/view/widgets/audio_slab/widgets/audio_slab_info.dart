@@ -1,4 +1,3 @@
-import 'package:client/core/theme/app_pallete.dart';
 import 'package:client/features/home/models/audio_model.dart';
 import 'package:client/features/home/view/widgets/image/image_container.dart';
 import 'package:flutter/material.dart';
@@ -33,10 +32,9 @@ class AudioSlabInfo extends StatelessWidget {
             ),
             Text(
               artist,
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                overflow: TextOverflow.ellipsis,
-                color: Pallete.subtitleText,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleSmall?.copyWith(overflow: TextOverflow.ellipsis),
               maxLines: 1,
             ),
           ],
