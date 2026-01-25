@@ -120,7 +120,7 @@ flutter_launcher_icons:
     generate: true
 
 flutter_native_splash:
-  color: "#ffffff" # background color of splash screen
+  color: "#111111" # background color of splash screen
   image: assets/icon/splash.png # your splash image
   android: true
   web: true
