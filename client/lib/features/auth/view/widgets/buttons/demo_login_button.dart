@@ -32,10 +32,7 @@ class _DemoLoginButtonState extends ConsumerState<DemoLoginButton> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          'Want to try it out? Use a ',
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
+        Text('Login using ', style: Theme.of(context).textTheme.bodyLarge),
         CustomTextButton(
           text: 'demo account',
           onPressed: loading ? null : handleDemoLogin,
