@@ -23,17 +23,19 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          pages[currentIndex],
-          const Positioned(bottom: 0, child: AudioSlab()),
-        ],
-      ),
+    return SafeArea(
+      child: Scaffold(
+        body: Stack(
+          children: [
+            pages[currentIndex],
+            const Positioned(bottom: 0, child: AudioSlab()),
+          ],
+        ),
 
-      bottomNavigationBar: HomeBottomNavBar(
-        currentIndex: currentIndex,
-        onTap: handleNavigation,
+        bottomNavigationBar: HomeBottomNavBar(
+          currentIndex: currentIndex,
+          onTap: handleNavigation,
+        ),
       ),
     );
   }
