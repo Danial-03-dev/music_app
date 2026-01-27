@@ -6,6 +6,7 @@ class CustomIconButton extends StatelessWidget {
   final IconData icon;
   final double? iconSize;
   final Color? color;
+  final String? tooltip;
 
   const CustomIconButton({
     super.key,
@@ -13,6 +14,7 @@ class CustomIconButton extends StatelessWidget {
     required this.icon,
     this.iconSize = 52,
     this.color = Pallete.whiteColor,
+    this.tooltip,
   });
 
   @override
@@ -22,6 +24,7 @@ class CustomIconButton extends StatelessWidget {
       icon: Icon(icon),
       iconSize: iconSize,
       color: color,
+      tooltip: tooltip,
     );
   }
 }

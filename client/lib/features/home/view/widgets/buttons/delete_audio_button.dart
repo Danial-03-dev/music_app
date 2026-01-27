@@ -1,7 +1,7 @@
 import 'package:client/core/theme/app_pallete.dart';
 import 'package:client/core/widgets/loader.dart';
 import 'package:client/features/home/models/audio_model.dart';
-import 'package:client/features/home/view/widgets/buttons/custom_icon_button.dart';
+import 'package:client/core/widgets/buttons/custom_icon_button.dart';
 import 'package:client/features/home/view_model/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

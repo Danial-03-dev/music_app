@@ -1,5 +1,5 @@
 import 'package:client/core/providers/current_audio/current_audio_notifier.dart';
-import 'package:client/features/home/view/widgets/buttons/custom_icon_button.dart';
+import 'package:client/core/widgets/buttons/custom_icon_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

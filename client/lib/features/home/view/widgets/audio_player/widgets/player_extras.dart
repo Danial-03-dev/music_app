@@ -1,4 +1,4 @@
-import 'package:client/features/home/view/widgets/buttons/custom_icon_button.dart';
+import 'package:client/core/widgets/buttons/custom_icon_button.dart';
 import 'package:flutter/material.dart';
 
 class PlayerExtras extends StatelessWidget {

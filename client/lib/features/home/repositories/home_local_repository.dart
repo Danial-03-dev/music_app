@@ -61,4 +61,12 @@ class HomeLocalRepository {
 
     return audios;
   }
+
+  void clearLocalAudios() {
+    try {
+      box.clear();
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
 }
